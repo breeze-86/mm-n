@@ -66,12 +66,13 @@ echo "Create the service unit file..."
 tee /etc/systemd/system/ceremonyclient.service > /dev/null <<EOF
 [Unit]
 Description=Ceremony Client Service
-After=network.target
 
 [Service]
 Type=simple
-ExecStart=/opt/ceremonyclient/node/release_autorun.sh
+Restart=always
+RestartSec=5s
 WorkingDirectory=/opt/ceremonyclient/node
+ExecStart=/opt/ceremonyclient/node/release_autorun.sh
 
 [Install]
 WantedBy=multi-user.target
