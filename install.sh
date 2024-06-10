@@ -73,9 +73,28 @@ EOL
 chmod +x run.sh 
 
 # Run the node
-echo "Running the node..."
-./run.sh
+echo "Create the service unit file..."
+# Create the service unit file
+tee /etc/systemd/system/ceremonyclient.service > /dev/null <<EOF
+[Unit]
+Description=Ceremony Client Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/opt/ceremonyclient/node/run.sh
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# Enable and start the service
+sudo systemctl enable ceremonyclient
+sudo systemctl start ceremonyclient
+
 sleep 20
+# Check if the service is running
+sudo systemctl status ceremonyclient
 echo "Setup complete. Your node should be running and logs will be rotated automatically."
 echo ""
 
