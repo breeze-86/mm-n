@@ -28,7 +28,19 @@ echo "Applying sysctl settings..."
 sysctl -p
 echo ""
 
-# Step 3: Setup logrotate for log management
+
+# Step 3: Download the source code
+echo "[4/7]Downloading the source code..."
+mkdir -p /opt && cd /opt
+git clone https://source.quilibrium.com/quilibrium/ceremonyclient.git
+
+# Checkout the release branch
+echo "Switching to the release branch..."
+git checkout -b release origin/release
+echo ""
+
+
+# Step 4: Setup logrotate for log management
 echo "[3/7]Setting up logrotate..."
 tee /etc/logrotate.d/ceremonyclient_node_logrotate > /dev/null <<EOL
 ${ROOT_DIR}/node/logs/sys.log {
@@ -41,18 +53,6 @@ ${ROOT_DIR}/node/logs/sys.log {
     notifempty
 }
 EOL
-echo ""
-
-# Step 4: Download the source code
-echo "[4/7]Downloading the source code..."
-mkdir -p ${ROOT_DIR}
-cd ${ROOT_DIR}
-git clone https://source.quilibrium.com/quilibrium/ceremonyclient.git
-cd ${ROOT_DIR}
-
-# Checkout the release branch
-echo "Switching to the release branch..."
-git checkout -b release origin/release
 echo ""
 
 # Step 5: Start the node
