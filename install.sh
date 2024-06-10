@@ -17,11 +17,15 @@ echo ""
 
 # Step 2: Configure Linux Network Device Settings
 echo "[2/7]Configuring network device settings..."
-tee -a /etc/sysctl.conf > /dev/null <<EOL
+# Check if net.core.rmem_max or net.core.wmem_max settings already exist
+if ! grep -q "^net\.core\.rmem_max=" /etc/sysctl.conf || ! grep -q "^net\.core\.wmem_max=" /etc/sysctl.conf; then
+    # If they do not exist, add the following settings
+    tee -a /etc/sysctl.conf > /dev/null <<EOL
 # Increase buffer sizes for better network performance
 net.core.rmem_max=600000000
 net.core.wmem_max=600000000
 EOL
+fi
 
 # Apply the new sysctl settings
 echo "Applying sysctl settings..."
@@ -71,15 +75,14 @@ chmod +x run.sh
 # Run the node
 echo "Running the node..."
 ./run.sh
-echo ""
-
+sleep 20
 echo "Setup complete. Your node should be running and logs will be rotated automatically."
+echo ""
 
 # Note: Configuration file modifications should be done after the node has started and created the config file.
 # The following steps are for manual configuration after node setup.
 
 # Step 6: Modify the configuration file manually if necessary
-sleep 20
 echo "[6/7]Please modify the configuration file at ${ROOT_DIR}/node/.config/config.yml with the following settings:"
 echo "To enable gRPC:"
 echo "listenGrpcMultiaddr: \"/ip4/127.0.0.1/tcp/8337\""
@@ -98,5 +101,5 @@ echo ""
 mkdir -p ${BAK_DIR}
 cp -rf ${ROOT_DIR}/node/.config ${BAK_DIR}
 
-# Step 7: Reboot the VPS
-echo "[7/7]Please reboot your VPS to apply the changes."
+# Step 7: Reboot the VPS. Increase buffer sizes for better network performance 
+echo -e "\e[1;31m[7/7] Please reboot your VPS to apply the changes.\e[0m"
