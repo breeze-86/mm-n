@@ -36,9 +36,9 @@ git clone https://source.quilibrium.com/quilibrium/ceremonyclient.git
 
 # Checkout the release branch
 echo "Switching to the release branch..."
+cd ${ROOT_DIR}
 git checkout -b release origin/release
 echo ""
-
 
 # Step 4: Setup logrotate for log management
 echo "[3/7]Setting up logrotate..."
@@ -79,6 +79,7 @@ echo "Setup complete. Your node should be running and logs will be rotated autom
 # The following steps are for manual configuration after node setup.
 
 # Step 6: Modify the configuration file manually if necessary
+sleep 20
 echo "[6/7]Please modify the configuration file at ${ROOT_DIR}/node/.config/config.yml with the following settings:"
 echo "To enable gRPC:"
 echo "listenGrpcMultiaddr: \"/ip4/127.0.0.1/tcp/8337\""
