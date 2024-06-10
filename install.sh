@@ -71,6 +71,7 @@ After=network.target
 [Service]
 Type=simple
 ExecStart=/opt/ceremonyclient/node/release_autorun.sh
+WorkingDirectory=/opt/ceremonyclient/node
 
 [Install]
 WantedBy=multi-user.target
