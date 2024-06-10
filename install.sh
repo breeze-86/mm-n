@@ -12,13 +12,13 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 # Step 1: Install cpulimit tool
-echo -e "\e[1m■■ [1/6]Installing cpulimit ■■\e[0m"
+echo -e "\e[1m■■■ [1/6]Installing cpulimit ■■■\e[0m"
 apt-get update -y
 apt-get install -y cpulimit
 echo ""
 
 # Step 2: Configure Linux Network Device Settings
-echo -e "\e[1m■■ [2/6]Configuring network device settings ■■\e[0m"
+echo -e "\e[1m■■■ [2/6]Configuring network device settings ■■■\e[0m"
 # Check if net.core.rmem_max or net.core.wmem_max settings already exist
 if ! grep -q "^net\.core\.rmem_max=" /etc/sysctl.conf || ! grep -q "^net\.core\.wmem_max=" /etc/sysctl.conf; then
     # If they do not exist, add the following settings
@@ -36,7 +36,7 @@ echo ""
 
 
 # Step 3: Download the source code
-echo -e "\e[1m■■ [3/6]Downloading the source code ■■\e[0m"
+echo -e "\e[1m■■■ [3/6]Downloading the source code ■■■\e[0m"
 mkdir -p /opt && cd /opt
 git clone https://source.quilibrium.com/quilibrium/ceremonyclient.git
 
@@ -47,7 +47,7 @@ git checkout -b release origin/release
 echo ""
 
 # Step 4: Start the node
-echo -e "\e[1m■■ [4/6]Starting the node ■■\e[0m"
+echo -e "\e[1m■■■ [4/6]Starting the node ■■■\e[0m"
 echo "Create the service unit file..."
 # Create the service unit file
 tee /etc/systemd/system/ceremonyclient.service > /dev/null <<EOF
@@ -79,7 +79,7 @@ echo ""
 # The following steps are for manual configuration after node setup.
 
 # Step 5: Modify the configuration file manually if necessary
-echo -e "\e[1m■■ [5/6]Please modify the configuration file at ${ROOT_DIR}/node/.config/config.yml with the following settings ■■\e[0m"
+echo -e "\e[1m■■■ [5/6]Please modify the configuration file at ${ROOT_DIR}/node/.config/config.yml with the following settings ■■■\e[0m"
 echo "To enable gRPC:"
 new_listenGrpcMultiaddr="/ip4/127.0.0.1/tcp/8337"
 echo "listenGrpcMultiaddr: \"${new_listenGrpcMultiaddr}\""
@@ -98,4 +98,5 @@ mkdir -p ${BAK_DIR}
 cp -rf ${ROOT_DIR}/node/.config ${BAK_DIR}
 
 # Step 6: Reboot the VPS. Increase buffer sizes for better network performance 
-echo -e "\e[1;34m■■ [6/6] Please < reboot > your VPS to apply the changes. ■■\e[0m"
+echo -e "\e[1;34m■■■ [6/6] Please < reboot > your VPS to apply the changes. ■■■\e[0m"
+reboot
