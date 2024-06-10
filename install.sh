@@ -61,18 +61,6 @@ echo ""
 
 # Step 5: Start the node
 echo -e "\e[1m[5/7]Starting the node...\e[0m"
-cd ${ROOT_DIR}/node
-mkdir -p ${ROOT_DIR}/node/logs
-
-# Create the run script
-echo "Creating the run script..."
-cat <<EOL > run.sh
-nohup bash ${ROOT_DIR}/node/release_autorun.sh > ${ROOT_DIR}/node/logs/sys.log 2>&1 & disown
-EOL
-
-chmod +x run.sh 
-
-# Run the node
 echo "Create the service unit file..."
 # Create the service unit file
 tee /etc/systemd/system/ceremonyclient.service > /dev/null <<EOF
@@ -82,7 +70,7 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=/opt/ceremonyclient/node/run.sh
+ExecStart=/opt/ceremonyclient/node/release_autorun.sh
 
 [Install]
 WantedBy=multi-user.target
