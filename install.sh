@@ -34,7 +34,7 @@ echo ""
 
 
 # Step 3: Download the source code
-echo "[4/7]Downloading the source code..."
+echo "[3/7]Downloading the source code..."
 mkdir -p /opt && cd /opt
 git clone https://source.quilibrium.com/quilibrium/ceremonyclient.git
 
@@ -45,7 +45,7 @@ git checkout -b release origin/release
 echo ""
 
 # Step 4: Setup logrotate for log management
-echo "[3/7]Setting up logrotate..."
+echo "[4/7]Setting up logrotate..."
 tee /etc/logrotate.d/ceremonyclient_node_logrotate > /dev/null <<EOL
 ${ROOT_DIR}/node/logs/sys.log {
     size 500M
@@ -85,15 +85,15 @@ echo ""
 # Step 6: Modify the configuration file manually if necessary
 echo "[6/7]Please modify the configuration file at ${ROOT_DIR}/node/.config/config.yml with the following settings:"
 echo "To enable gRPC:"
-echo "listenGrpcMultiaddr: \"/ip4/127.0.0.1/tcp/8337\""
 new_listenGrpcMultiaddr="/ip4/127.0.0.1/tcp/8337"
+echo "listenGrpcMultiaddr: \"${new_listenGrpcMultiaddr}\""
 sed -i.bak "s|listenGrpcMultiaddr:.*|listenGrpcMultiaddr: \"${new_listenGrpcMultiaddr}\"|" "${CONFIG_FILE_DIR}"
 echo ""
 
 echo "To enable stats collection:"
-echo "engine:"
-echo "  statsMultiaddr: \"/dns/stats.quilibrium.com/tcp/443\""
 new_statsMultiaddr="/dns/stats.quilibrium.com/tcp/443"
+echo "engine:"
+echo "  statsMultiaddr: \"${new_statsMultiaddr}\""
 sed -i -e "/statsMultiaddr:/s|statsMultiaddr:.*|statsMultiaddr: \"{$new_statsMultiaddr}\"|" "${CONFIG_FILE_DIR}"
 echo ""
 
@@ -102,4 +102,4 @@ mkdir -p ${BAK_DIR}
 cp -rf ${ROOT_DIR}/node/.config ${BAK_DIR}
 
 # Step 7: Reboot the VPS. Increase buffer sizes for better network performance 
-echo -e "\e[1;31m[7/7] Please reboot your VPS to apply the changes.\e[0m"
+echo -e "\e[1;34m[7/7] Please < reboot > your VPS to apply the changes.\e[0m"
