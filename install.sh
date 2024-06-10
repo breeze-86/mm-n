@@ -87,14 +87,14 @@ echo "[6/7]Please modify the configuration file at ${ROOT_DIR}/node/.config/conf
 echo "To enable gRPC:"
 new_listenGrpcMultiaddr="/ip4/127.0.0.1/tcp/8337"
 echo "listenGrpcMultiaddr: \"${new_listenGrpcMultiaddr}\""
-sed -i.bak "s|listenGrpcMultiaddr:.*|listenGrpcMultiaddr: \"${new_listenGrpcMultiaddr}\"|" "${CONFIG_FILE_DIR}"
+sed -i.bak "s|listenGrpcMultiaddr:.*|listenGrpcMultiaddr: \"$new_listenGrpcMultiaddr\"|" "$CONFIG_FILE_DIR"
 echo ""
 
 echo "To enable stats collection:"
 new_statsMultiaddr="/dns/stats.quilibrium.com/tcp/443"
 echo "engine:"
 echo "  statsMultiaddr: \"${new_statsMultiaddr}\""
-sed -i -e "/statsMultiaddr:/s|statsMultiaddr:.*|statsMultiaddr: \"{$new_statsMultiaddr}\"|" "${CONFIG_FILE_DIR}"
+sed -i -e "/statsMultiaddr:/s|statsMultiaddr:.*|statsMultiaddr: \"$new_statsMultiaddr\"|" "$CONFIG_FILE_DIR"
 echo ""
 
 # bak config
