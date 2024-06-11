@@ -81,9 +81,15 @@ echo ""
 # Step 5: Modify the configuration file manually if necessary
 echo -e "\e[1m■■■ [5/6]Please modify the configuration file at ${ROOT_DIR}/node/.config/config.yml with the following settings ■■■\e[0m"
 echo "To enable gRPC:"
-new_listenGrpcMultiaddr="/ip4/127.0.0.1/tcp/8337"
+new_listenGrpcMultiaddr="/ip4/0.0.0.0/tcp/8337"
 echo "listenGrpcMultiaddr: \"${new_listenGrpcMultiaddr}\""
 sed -i.bak "s|listenGrpcMultiaddr:.*|listenGrpcMultiaddr: \"$new_listenGrpcMultiaddr\"|" "$CONFIG_FILE_DIR"
+echo ""
+
+echo "To enable REST:"
+new_listenRESTMultiaddr="/ip4/0.0.0.0/tcp/8337"
+echo "listenRESTMultiaddr: \"${new_listenRESTMultiaddr}\""
+sed -i.bak "s|listenRESTMultiaddr:.*|listenRESTMultiaddr: \"$new_listenRESTMultiaddr\"|" "$CONFIG_FILE_DIR"
 echo ""
 
 echo "To enable stats collection:"
