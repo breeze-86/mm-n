@@ -87,7 +87,7 @@ sed -i.bak "s|listenGrpcMultiaddr:.*|listenGrpcMultiaddr: \"$new_listenGrpcMulti
 echo ""
 
 echo "To enable REST:"
-new_listenRESTMultiaddr="/ip4/0.0.0.0/tcp/8337"
+new_listenRESTMultiaddr="/ip4/0.0.0.0/tcp/8338"
 echo "listenRESTMultiaddr: \"${new_listenRESTMultiaddr}\""
 sed -i.bak "s|listenRESTMultiaddr:.*|listenRESTMultiaddr: \"$new_listenRESTMultiaddr\"|" "$CONFIG_FILE_DIR"
 echo ""
